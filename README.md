@@ -174,3 +174,4 @@ This repository is for educational purposes. All exercises and examples are desi
 ---
 
 **Note**: This repository contains educational materials for learning database management concepts. Each lab builds upon previous knowledge, so it's recommended to work through the exercises in order.
+# sweetspot
