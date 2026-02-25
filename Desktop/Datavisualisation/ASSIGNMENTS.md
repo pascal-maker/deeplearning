@@ -1,154 +1,118 @@
-# Completed Assignments
+# My Learning Journey — Git, GitHub & Python OOP
 
-A summary of all assignments completed in this repository session.
+*by Pascal Musabyimana*
 
 ---
 
-## 1. The Basics of GitHub
+When I started these assignments I already had some experience with Git — pushing code, pulling updates, the usual routine. But I quickly realised there was a gap between knowing the commands and actually understanding what Git is doing underneath. These four assignments closed that gap in a way that stuck.
+
+---
+
+## Starting with the Basics — GitHub Fundamentals
 
 **Repo:** [git-fundamentals](https://github.com/pascal-maker/git-fundamentals)
 
-### What was covered
-- Git as a distributed Version Control System
-- GitHub flow: repositories, cloning, committing, pushing
-- Branches, forks, pull requests, issues
-- Markdown on GitHub
-- GitHub community features (stars, following, Explore)
+The GitHub Basics course was not difficult, but it was grounding. It forced me to slow down and think about things I had been taking for granted. Git is a *distributed* version control system — meaning every developer has a full copy of the entire history, not just the latest snapshot. That sounds obvious until you really sit with it and realise why it matters: you can work completely offline, roll back to any point in history, and collaborate without a central bottleneck.
 
-### What was delivered
-| File | Description |
-|------|-------------|
-| `README.md` | Original course content |
-| `my-learning.md` | Personal reflection: what was learned and what to explore next |
+What stood out most was the concept of the **GitHub flow** — the rhythm of branching, committing, opening a pull request, getting feedback, and merging. I had done most of these steps before, but always reactively, without thinking of them as a deliberate workflow. After this course I started thinking of a branch not just as a copy of the code, but as a *conversation* with the team about a specific piece of work.
 
-### Git workflow used
-- Created `feature/github-learning-notes` branch
-- Committed `my-learning.md`
-- Opened PR → merged into `main`
+I completed the assignment by writing `my-learning.md` — a personal reflection on what I had learned — on a dedicated feature branch, then opening a pull request and merging it. Even that small exercise made the theory feel real.
 
 ---
 
-## 2. Merge Conflict Demo — Basic
+## When Two Branches Disagree — The Basic Merge Conflict
 
 **Repo:** [merge-demo](https://github.com/pascal-maker/merge-demo)
 
-### What was covered
-- How merge conflicts are created (two branches modifying the same line)
-- Reading Git conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
-- Resolving a conflict and committing the resolution
+Merge conflicts used to intimidate me. Seeing those `<<<<<<<` markers in a file felt like Git telling me I had broken something. This assignment changed that completely.
 
-### Scenario
-- `main` branch: changed `h1` color to **green**
-- `feature-branch`: changed `h1` color to **red**
-- Merging caused a conflict in `style.css` → resolved by keeping green
+The scenario was simple on purpose: one developer changed an `h1` color to green on `main`, while another changed it to red on `feature-branch`. When we tried to merge, Git couldn't decide which color was "right" — so it stopped and asked us to decide. That is not a failure. That is Git doing exactly what it should.
 
-### Files
-| File | Description |
-|------|-------------|
-| `index.html` | Simple webpage with an `h1` heading |
-| `style.css` | Stylesheet where the conflict occurred |
-| `README.md` | Documents the conflict, markers, and resolution |
+```
+h1 {
+<<<<<<< HEAD
+    color: green;
+=======
+    color: red;
+>>>>>>> feature-branch
+    font-size: 24px;
+}
+```
 
-### Branches
-| Branch | Role |
-|--------|------|
-| `main` | Resolved — green color |
-| `feature-branch` | Red color |
+Once I understood that those markers are just Git's way of saying *"both of these changes are valid, I just need a human to make the call"*, the anxiety disappeared. A merge conflict is not a bug in your workflow. It is proof that your version control system is protecting you from silently overwriting someone else's work.
+
+I resolved it, committed the fix, and pushed. Clean. What had felt scary before now felt like a normal part of development.
 
 ---
 
-## 3. Merge Conflict Demo — Advanced E-commerce
+## When It Gets Real — Multi-File Conflicts in an E-commerce Project
 
 **Repo:** [merge-demo-project](https://github.com/pascal-maker/merge-demo-project)
 
-### What was covered
-- Multi-file merge conflicts across `Product.js` and `pricing.js`
-- Resolving conflicts that require combining logic from both branches
-- Business logic awareness: discount applied **before** tax
+The advanced challenge was where things got genuinely interesting. Instead of one file and one conflict, I was now dealing with two teams who had been working in parallel on an e-commerce application — both touching the same files, both with completely valid work, both needing to coexist.
 
-### Scenario
-Two teams worked in parallel:
-- **Team A (`feature-discount`):** implemented `getDiscount()` and updated `calculatePrice()`
-- **Team B (`feature-tax`):** implemented `getTax()` and updated `calculatePrice()`
+Team A had built a discount system. Team B had built a tax calculator. On their own, each implementation made perfect sense. Together, they conflicted — not just technically, but *logically*. Merging them was not just a matter of picking one version over the other. I had to think about the business: should the discount be applied before or after tax? In standard retail, yes — you discount first, then apply tax to the reduced price. The code had to reflect that.
 
-Merging `feature-tax` into `main` (after `feature-discount` was already merged) caused conflicts in both files.
-
-### Resolution
 ```js
-// Product.js — combined both features
 calculatePrice() {
   const priceWithDiscount = this.basePrice - this.getDiscount();
   return priceWithDiscount + this.getTax(priceWithDiscount);
 }
 ```
 
-### Files
-| File | Description |
-|------|-------------|
-| `src/components/Product.js` | Product class — conflicted and resolved |
-| `src/components/Cart.js` | Cart class |
-| `src/utils/pricing.js` | calculateTotal — conflicted and resolved |
-| `README.md` | Documents the scenario, conflicts, and resolution |
-
-### Branches
-| Branch | Role |
-|--------|------|
-| `main` | Resolved — discount + tax combined |
-| `feature-discount` | Discount system only |
-| `feature-tax` | Tax system only |
+This was the lesson I did not expect: resolving a merge conflict is sometimes a *product decision*, not just a technical one. Understanding the code is not enough — you need to understand the domain it operates in. That insight changed how I think about code review and collaboration entirely.
 
 ---
 
-## 4. Chess — OOP & Git Assignment
+## Building Something — Chess in Python
 
 **Repo:** [chess](https://github.com/pascal-maker/chess)
 
-### What was covered
-- Object-Oriented Programming with Python
-- Inheritance using `ABC` (Abstract Base Class)
-- `dict` inheritance for JSON serialisation
-- Python decorators (`@print_board`, `@save_board`)
-- Dict and list comprehensions
-- Generators (`load_board_states`)
-- Static methods (`BoardMovements`)
-- Git feature branch workflow
+The chess assignment was the most ambitious of the four and the one I am most proud of. It brought together everything: OOP, inheritance, decorators, comprehensions, generators, static methods, and a proper Git branching workflow — all in one project.
 
-### Files
-| File | Description |
-|------|-------------|
-| `pieces.py` | `BaseChessPiece(ABC, dict)` + 6 piece classes with movement logic and decorators |
-| `board.py` | `Board` class: dict comprehension setup, `print_board`, `find_piece`, `save_board_state`, `load_board_states` generator |
-| `board_movements.py` | `BoardMovements` static class: 8 directional movement helpers, color-aware forward/backward |
-| `main.py` | Demo: board setup, moves, board auto-printing, state replay |
-| `board.txt` | Saved board states (JSON, one per line) |
-| `README.md` | Documents structure, concepts, branches, and movement table |
+I started with a `BaseChessPiece` class that inherited from both `ABC` and Python's built-in `dict`. The `dict` inheritance was an elegant trick — it meant every piece was automatically JSON-serialisable, so saving the board state to a file became a single line. The abstract base class established the contract: every piece *must* know how to move, even if the mechanics differ wildly between a Pawn and a Knight.
 
-### Key concepts implemented
-| Concept | Where |
-|---------|-------|
-| Inheritance | `BaseChessPiece` → `Pawn`, `Rook`, `Bishop`, `Knight`, `Queen`, `King` |
-| Decorators | `@print_board`, `@save_board` on `BaseChessPiece.move()` |
-| Dict comprehension | Board squares init + pawn placement in `Board.setup_board()` |
-| List comprehension | `print_board()` row builder, `find_piece()` filter |
-| Generator | `Board.load_board_states()` — reads `board.txt` one line at a time |
-| Static methods | All 8 direction helpers in `BoardMovements` |
-| `dict` inheritance | `BaseChessPiece(ABC, dict)` — enables `json.dumps` serialisation |
+What I found most satisfying was the decorator work. The `@print_board` and `@save_board` decorators on the `move()` method meant that every time any piece moved, the board was automatically printed and the state saved — without any piece needing to know about that. The separation of concerns felt clean. A Pawn just calculates where it should go. The decorator handles the side effects.
 
-### Branches
-| Branch | Role |
-|--------|------|
-| `main` | Fully merged implementation |
-| `feature/chess-pieces` | All 6 piece classes |
-| `feature/board-setup` | `Board` + `BoardMovements` |
-| `feature/decorators-and-state` | Decorators + save/load state |
+```python
+@print_board
+@save_board
+def move(self, movement: str):
+    # move the piece on the board
+```
+
+The generator for loading saved board states was another highlight. Instead of reading the entire `board.txt` file into memory at once, the generator yields one line at a time — the kind of detail that does not matter for 3 moves but matters enormously when you have been playing for hours and the file has thousands of states.
+
+I also had to think carefully about direction. BLACK starts at rows 1–2, WHITE at rows 7–8. So "forward" means something different depending on which color you are playing. That one detail — making movement color-aware — was a small thing that made the whole simulation feel honest.
+
+By the end, the board printed exactly as expected:
+
+```
+[BLACK Rook 1, BLACK Knight 1, BLACK Bishop 1, BLACK Queen 1, BLACK King 1, BLACK Bishop 2, BLACK Knight 2, BLACK Rook 2]
+[BLACK Pawn 1, BLACK Pawn 2, BLACK Pawn 3, BLACK Pawn 4, BLACK Pawn 5, BLACK Pawn 6, BLACK Pawn 7, BLACK Pawn 8]
+[None, None, None, None, None, None, None, None]
+...
+[WHITE Pawn 1, WHITE Pawn 2, WHITE Pawn 3, WHITE Pawn 4, WHITE Pawn 5, WHITE Pawn 6, WHITE Pawn 7, WHITE Pawn 8]
+[WHITE Rook 1, WHITE Knight 1, WHITE Bishop 1, WHITE Queen 1, WHITE King 1, WHITE Bishop 2, WHITE Knight 2, WHITE Rook 2]
+```
+
+Running `python main.py` and seeing that output for the first time was genuinely satisfying.
 
 ---
 
-## Summary Table
+## Looking Back
 
-| # | Assignment | Repo | Key concepts |
-|---|-----------|------|-------------|
-| 1 | GitHub Basics | [git-fundamentals](https://github.com/pascal-maker/git-fundamentals) | Git flow, branches, PRs, issues |
-| 2 | Merge Conflict — Basic | [merge-demo](https://github.com/pascal-maker/merge-demo) | Conflict markers, single-file resolution |
-| 3 | Merge Conflict — Advanced | [merge-demo-project](https://github.com/pascal-maker/merge-demo-project) | Multi-file conflicts, business logic |
-| 4 | Chess OOP | [chess](https://github.com/pascal-maker/chess) | Inheritance, decorators, generators, comprehensions |
+These four assignments tell a connected story. I started by understanding the *philosophy* of Git, moved into the *mechanics* of conflict resolution, discovered that good conflict resolution requires *domain knowledge*, and finally built a full OOP application using Git branching as the backbone of the development process.
+
+The thing that surprised me most is how much of software development is about communication — with your team through branches and pull requests, with future readers through commit messages and READMEs, and even with yourself through clean, well-structured code. Git is not just a backup tool. It is a collaboration protocol.
+
+I am looking forward to going deeper — particularly into `git rebase`, GitHub Actions for automated testing, and protected branch rules for team projects. But the foundation is solid now.
+
+---
+
+| Assignment | Repo | Core lesson |
+|-----------|------|------------|
+| GitHub Basics | [git-fundamentals](https://github.com/pascal-maker/git-fundamentals) | Git is a collaboration protocol, not just a backup tool |
+| Merge Conflict — Basic | [merge-demo](https://github.com/pascal-maker/merge-demo) | Conflicts are Git protecting you, not punishing you |
+| Merge Conflict — Advanced | [merge-demo-project](https://github.com/pascal-maker/merge-demo-project) | Resolving conflicts requires understanding the domain |
+| Chess OOP | [chess](https://github.com/pascal-maker/chess) | Clean abstractions make complex systems manageable |
