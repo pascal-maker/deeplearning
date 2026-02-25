@@ -30,11 +30,7 @@ The scenario was simple on purpose: one developer changed an `h1` color to green
 
 ```
 h1 {
-<<<<<<< HEAD
     color: green;
-=======
-    color: red;
->>>>>>> feature-branch
     font-size: 24px;
 }
 ```
